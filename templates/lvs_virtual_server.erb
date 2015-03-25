@@ -1,6 +1,14 @@
+<% if @is_group -%>
+virtual_server_group <%= name %> {
+  <%= @ip_address %> <%= port %>
+}
+
+virtual_server <% end -%>
 group <%= name %> {
 
+  <%- if ! @is_group -%>
   virtual_server <%= @ip_address %> <%= port %>
+  <%- end -%>
 
   <%- if @delay_loop -%>
   delay_loop <%= @delay_loop %>

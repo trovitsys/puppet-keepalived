@@ -96,8 +96,16 @@ define keepalived::lvs::virtual_server (
   $virtualhost         = undef,
 ) {
 
-  if ( ! is_ip_address($ip_address) ) {
-    fail('Invalid IP address')
+  if $ip_address =~ /^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})-[0-9]+$/ {
+    $is_group = true
+    $parsed_ip_address = $1
+    if ( ! is_ip_address($parsed_ip_address) ) {
+      fail('Invalid IP address')
+    }
+  } else {
+    if ( ! is_ip_address($ip_address) ) {
+      fail('Invalid IP address')
+    }
   }
 
   validate_re($port, '^[0-9]{1,5}$', "Invalid port: ${port}")
