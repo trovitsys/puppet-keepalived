@@ -1,0 +1,20 @@
+[Unit]
+SourcePath=/etc/init.d/keepalived
+Description=LSB: Starts keepalived
+Before=runlevel2.target runlevel3.target runlevel4.target runlevel5.target shutdown.target
+After=systemd-journald-dev-log.socket network-online.target remote-fs.target
+Wants=network-online.target
+Conflicts=shutdown.target
+
+[Service]
+Type=forking
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=no
+SysVStartPriority=2
+ExecStart=/etc/init.d/keepalived start
+ExecStop=/etc/init.d/keepalived stop
+ExecReload=/etc/init.d/keepalived reload
