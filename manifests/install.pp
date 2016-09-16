@@ -14,8 +14,7 @@ class keepalived::install {
         group   => 'root',
         mode    => '0644',
         source  => 'puppet:///modules/keepalived/keepalived.systemd',
-        require => Package['keepalived'],
-        notify  => Service['keepalived'],
+        notify  => [ Service['keepalived'], Package['keepalived'], ],
     }
   }
 
